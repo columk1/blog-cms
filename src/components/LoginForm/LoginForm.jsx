@@ -12,18 +12,12 @@ const LoginForm = () => {
     return <div className='text-2xl font-bold'>Success route? {message}</div>
   }
 
-  if (status === 'error') {
-    return (
-      <>
-        <div className='text-2xl font-bold'>Something bad happened!</div>
-        <div className='text-2xl font-bold'>{message}</div>
-      </>
-    )
-  }
-
   return (
     <form className='space-y-6' action={FORM_ENDPOINT} onSubmit={handleSubmit} method='POST'>
       <div className='flex flex-col mb-2'>
+        {status === 'error' && (
+          <div className='mb-3 text-red-500 text-center font-bold'>{message}</div>
+        )}
         <div className='flex relative '>
           <span className='rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm'>
             <svg
@@ -90,7 +84,6 @@ const LoginForm = () => {
           </a>
         </div>
       </div>
-
       <div>
         <button
           type='submit'
