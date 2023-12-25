@@ -1,22 +1,10 @@
-import useForm from '../../helpers/useForm'
 const FORM_ENDPOINT = 'http://localhost:3000/api/login'
-
-const LoginForm = () => {
-  const additionalData = {
-    sent: new Date().toISOString(),
-  }
-
-  const { handleSubmit, status, message } = useForm({ additionalData })
-
-  if (status === 'success') {
-    return <div className='text-2xl font-bold'>Success route? {message}</div>
-  }
-
+const LoginForm = ({ handleSubmit, errorMessage }) => {
   return (
     <form className='space-y-6' action={FORM_ENDPOINT} onSubmit={handleSubmit} method='POST'>
       <div className='flex flex-col mb-2'>
         {status === 'error' && (
-          <div className='mb-3 text-red-500 text-center font-bold'>{message}</div>
+          <div className='mb-3 text-red-500 text-center font-bold'>{errorMessage}</div>
         )}
         <div className='flex relative '>
           <span className='rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm'>

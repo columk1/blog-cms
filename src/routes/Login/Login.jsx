@@ -1,4 +1,4 @@
-import LoginForm from '../../components/LoginForm/LoginForm'
+import LoginFormWrapper from '../../components/LoginFormWrapper/LoginFormWrapper'
 
 const Login = () => {
   return (
@@ -25,7 +25,7 @@ const Login = () => {
         </div>
 
         <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
-          <LoginForm />
+          <LoginFormWrapper />
         </div>
       </div>
     </>
