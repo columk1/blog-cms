@@ -1,4 +1,4 @@
-const FORM_ENDPOINT = 'http://localhost:3000/api/login'
+const FORM_ENDPOINT = 'http://localhost:3000/api/auth/login'
 const LoginForm = ({ handleSubmit, errorMessage }) => {
   return (
     <form className='space-y-6' action={FORM_ENDPOINT} onSubmit={handleSubmit} method='POST'>

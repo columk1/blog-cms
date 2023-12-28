@@ -19,6 +19,7 @@ function useForm({ additionalData }) {
 
     fetch(formEndpoint, {
       method: 'POST',
+      // credentials: 'include',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -33,6 +34,7 @@ function useForm({ additionalData }) {
             throw new Error(res.statusText)
           })
         }
+        setData(res.headers.get('authorization'))
         return res.json()
       })
       .then((data) => {
