@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useOutletContext } from 'react-router-dom'
-import { getJwtToken } from '../../helpers/jwt'
 import humps from 'humps'
+import Loading from '../../components/Loading/Loading'
 
 const Posts = () => {
   const [posts, setPosts] = useState([])
@@ -11,8 +11,6 @@ const Posts = () => {
 
   useEffect(() => {
     console.log({ user })
-    if (!user) navigate('/login')
-
     fetch('http://localhost:3000/api/posts')
       .then((res) => res.json())
       .then((data) => setPosts(humps.camelizeKeys(data.data)))
@@ -20,7 +18,9 @@ const Posts = () => {
       .finally(() => setLoading(false))
   }, [])
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <div className='flex min-h-full min-w-[720px] mx-auto flex-1 flex-col justify-center px-6 lg:px-8'>
       <h1 className='text-center text-3xl p-4'>Home</h1>
       {/* <div className='sm:mx-auto sm:w-full sm:max-w-sm'> */}

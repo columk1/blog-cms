@@ -5,7 +5,7 @@ const Logout = () => {
   if (error) throw error
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/auth/logut', {
+    fetch('http://localhost:3000/api/auth/logout', {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -14,9 +14,7 @@ const Logout = () => {
       },
     }).then((res) => {
       if (res.status !== 204) {
-        console.log('RESPONSE' + res)
         setError(res)
-        throw new Error(res.statusText)
       } else {
         console.log('logged out')
       }

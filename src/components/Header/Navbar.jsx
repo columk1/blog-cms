@@ -3,9 +3,8 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
-  { name: 'Dashboard', href: '/', current: true },
+  { name: 'Dashboard', href: '/posts', current: true },
   { name: 'Login', href: '/login', current: false },
-  { name: 'Logout', href: '/logout', current: false },
   { name: 'Calendar', href: '#', current: false },
 ]
 
@@ -100,7 +99,7 @@ export default function Navbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href='#'
+                            href='/logout'
                             className={classNames(
                               active ? 'bg-gray-100' : '',
                               'block px-4 py-2 text-sm text-gray-700'
