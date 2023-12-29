@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import App from './App'
+import ErrorPage from './routes/ErrorPage'
 import Login from './routes/Login/Login'
 import Logout from './routes/Logout/Logout'
 import Posts from './routes/Posts/Posts'
@@ -19,7 +20,8 @@ const router = createBrowserRouter([
       { path: '/posts/:postId/edit', element: <PostForm /> },
       // { path: '/posts/new', element: <EditPost /> },
     ],
-    // errorElement: <ErrorPage />,
+    errorElement: <ErrorPage />,
+    // ,
   },
 ])
 

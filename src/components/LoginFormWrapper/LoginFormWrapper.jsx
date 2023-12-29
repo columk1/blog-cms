@@ -2,7 +2,7 @@ import useForm from '../../helpers/useForm'
 import { useNavigate } from 'react-router-dom'
 import LoginForm from '../LoginForm/LoginForm'
 
-const LoginFormWrapper = ({ redirectIfUser }) => {
+const LoginFormWrapper = ({ authRedirect }) => {
   const navigate = useNavigate()
   const additionalData = {
     sent: new Date().toISOString(),
@@ -12,7 +12,7 @@ const LoginFormWrapper = ({ redirectIfUser }) => {
 
   if (status === 'success') {
     console.log('This is the login log: ' + data.user)
-    redirectIfUser(data.user)
+    authRedirect(data.user)
     // setTimeout(() => navigate('/posts'), 500)
     return <div className='text-2xl text-center font-bold'>👍 {message}</div>
   } else {

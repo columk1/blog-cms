@@ -2,7 +2,7 @@ import LoginFormWrapper from '../../components/LoginFormWrapper/LoginFormWrapper
 import { useOutletContext } from 'react-router-dom'
 
 const Login = () => {
-  const { redirectIfUser } = useOutletContext()
+  const { authRedirect } = useOutletContext()
   return (
     <>
       {/*
@@ -27,7 +27,7 @@ const Login = () => {
         </div>
 
         <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
-          <LoginFormWrapper loginUser={redirectIfUser} />
+          <LoginFormWrapper authRedirect={authRedirect} />
         </div>
       </div>
     </>

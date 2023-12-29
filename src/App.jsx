@@ -9,13 +9,17 @@ function App() {
   const navigate = useNavigate()
 
   useEffect(() => {
+    if (window.location.pathname === '/logout') return
     refreshAccessToken()
   }, [])
 
-  function redirectIfUser(user) {
+  function authRedirect(user) {
     if (user) {
       setUser(user)
       navigate('/posts')
+    } else {
+      setUser(null)
+      navigate('/login')
     }
   }
 
@@ -38,10 +42,11 @@ function App() {
         .json()
         .then((data) => {
           console.log(data.user)
-          redirectIfUser(data.user)
+          authRedirect(data.user)
         })
         .catch((err) => {
           console.log(err)
+          authRedirect()
         })
     })
   }
@@ -49,7 +54,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <Outlet context={{ user, redirectIfUser }} />
+      <Outlet context={{ user, authRedirect }} />
       <Footer />
     </>
   )
