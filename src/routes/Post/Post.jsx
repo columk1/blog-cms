@@ -1,17 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useOutletContext, useLocation } from 'react-router-dom'
-import he from 'he'
-import Markdown from 'react-markdown'
-import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
-import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx'
-import js from 'react-syntax-highlighter/dist/esm/languages/prism/javascript'
-import css from 'react-syntax-highlighter/dist/esm/languages/prism/css'
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import Loading from '../../components/Loading/Loading'
-
-SyntaxHighlighter.registerLanguage('jsx', jsx)
-SyntaxHighlighter.registerLanguage('js', js)
-SyntaxHighlighter.registerLanguage('css', css)
+import Markdown from '../../components/Markdown/Markdown'
 
 const Post = () => {
   const { loadedPost } = useLocation().state
@@ -33,7 +23,6 @@ const Post = () => {
   //   }
   // })
   const post = loadedPost
-  let markdown = he.decode(post.markdown)
 
   return loading ? (
     <Loading />
@@ -51,36 +40,14 @@ const Post = () => {
           <p className='mb-2 text-sm text-gray-500'>{post.formattedDate}</p>
         </div>
         <div className='mb-6 flex gap-2 text-sm'>
-          <p>{post.tags.map((tag) => tag.toUpperCase())}</p>
+          <p>{post.tags.map((tag) => tag.toUpperCase()).join(', ')}</p>
           <p>|</p>
           <p>{`${post.readingLength} MIN READ`}</p>
         </div>
         <div className='prose prose-lg prose-a:text-blue-600 prose-a:no-underline prose-pre:bg-[#1e1e1e]'>
-          <Markdown
-            children={markdown}
-            components={{
-              code(props) {
-                const { children, className, node, ...rest } = props
-                const match = /language-(\w+)/.exec(className || '')
-                return match ? (
-                  <SyntaxHighlighter
-                    {...rest}
-                    PreTag='div'
-                    children={String(children).replace(/\n$/, '')}
-                    language={match[1]}
-                    style={vscDarkPlus}
-                  />
-                ) : (
-                  <code {...rest} className={className}>
-                    {children}
-                  </code>
-                )
-              },
-            }}
-          />
+          <Markdown markdownString={post.markdown} />
         </div>
       </div>
-      <h1>This is an Individual Post</h1>
     </section>
   )
 }
