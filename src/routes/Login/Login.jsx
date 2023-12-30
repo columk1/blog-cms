@@ -3,6 +3,7 @@ import { useOutletContext } from 'react-router-dom'
 
 const Login = () => {
   const { authRedirect } = useOutletContext()
+
   return (
     <>
       {/*

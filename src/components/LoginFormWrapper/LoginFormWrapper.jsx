@@ -13,7 +13,7 @@ const LoginFormWrapper = ({ authRedirect }) => {
   if (status === 'success') {
     console.log('This is the login log: ' + data.user)
     authRedirect(data.user)
-    // setTimeout(() => navigate('/posts'), 500)
+    setTimeout(() => navigate('/posts'), 500)
     return <div className='text-2xl text-center font-bold'>👍 {message}</div>
   } else {
     return <LoginForm handleSubmit={handleSubmit} errorMessage={message} />

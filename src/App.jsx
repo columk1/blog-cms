@@ -16,7 +16,7 @@ function App() {
   function authRedirect(user) {
     if (user) {
       setUser(user)
-      navigate('/posts')
+      // navigate('/posts')
     } else {
       setUser(null)
       navigate('/login')

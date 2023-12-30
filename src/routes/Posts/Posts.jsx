@@ -45,7 +45,7 @@ const Posts = () => {
               <div className='flex-shrink-0'>
                 <img className='w-11 h-11 rounded-full' src={post.imageUrl} alt='Article Image' />
               </div>
-              <Link to={post.id} state={{ post: post }} className='flex-1 min-w-0'>
+              <Link to={post.id} state={{ loadedPost: post }} className='flex-1 min-w-0'>
                 <p className='text-lg font-medium text-gray-900 truncate'>{post.title}</p>
                 <p className='text-sm text-gray-500 truncate'>{post.author.username}</p>
               </Link>
