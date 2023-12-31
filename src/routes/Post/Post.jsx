@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
-import { useParams, useOutletContext, useLocation } from 'react-router-dom'
+import { useParams, useOutletContext, useLocation, useNavigate, Link } from 'react-router-dom'
 import Loading from '../../components/Loading/Loading'
 import Markdown from '../../components/Markdown/Markdown'
 
 const Post = () => {
   const { loadedPost } = useLocation().state
   const [loading, setLoading] = useState(false)
+
+  const navigate = useNavigate()
 
   // const [post, setPost] = useState(null)
 
@@ -24,6 +26,8 @@ const Post = () => {
   // })
   const post = loadedPost
 
+  if (!post) throw new Response('Server Error', { status: 500 })
+
   return loading ? (
     <Loading />
   ) : (
@@ -31,6 +35,10 @@ const Post = () => {
       id='post'
       className='flex min-h-full w-[min(95vw,_880px)] mx-auto flex-1 flex-col justify-center px-6 lg:px-8'
     >
+      {/* Temporary button to test editing page */}
+      <Link to={'edit'} state={{ post: post }} className='flex-1 min-w-0'>
+        <button>Edit Post</button>
+      </Link>
       <div className='w-11/12'>
         <img className='w-full object-contain' src={post.imageUrl} alt={post.title} />
       </div>
