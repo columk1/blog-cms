@@ -26,7 +26,7 @@ const Post = () => {
   // })
   const post = loadedPost
 
-  if (!post) throw new Response('Server Error', { status: 500 })
+  // if (!post) throw new Response('Server Error', { status: 500 })
 
   return loading ? (
     <Loading />

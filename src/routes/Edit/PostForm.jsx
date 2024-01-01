@@ -20,30 +20,35 @@ const PostForm = () => {
     e.preventDefault()
     setLoading(true)
 
-    // const formData = new FormData(formRef.current)
+    const formData = new FormData(formRef.current)
     // formData.set('markdown', he.escape(markdownRef.current.value))
+    formData.set('tags', formData.getAll('tags'))
 
-    const formData = Array.from(e.target.elements)
-      .filter((input) => input.name)
-      .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {})
+    console.log(formData.get('tags'))
+
+    // const formData = Array.from(e.target.elements)
+    //   .filter((input) => input.name)
+    //   .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {})
 
     const res = await fetch('http://localhost:3000/api/posts', {
       method: 'POST',
+      // mode: 'cors',
       credentials: 'include',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      // body: formData,
-      body: JSON.stringify(formData),
+      // headers: {
+      //   Accept: 'application/json',
+      //   'Content-Type': 'application/json',
+      // },
+      body: new URLSearchParams(formData),
+      // body: JSON.stringify(formData),
     })
-    console.log(res)
     if (res.ok) {
-      const newPost = await res.json()
-      navigate(`/posts/${newPost.id}`, { replace: true, state: { post: newPost } })
+      const newPost = (await res.json()).data
+      console.log(newPost)
+      navigate(`/posts/${newPost._id.toString()}`, { replace: true, state: { post: newPost } })
     } else {
       let error = await res.json()
       setError({ status: res.status, message: error.message })
+      // setError({ status: res.status, message: res.statusText })
       setLoading(false)
     }
   }
@@ -82,6 +87,7 @@ const PostForm = () => {
                 Fields marked with <span className='text-red-500'>*</span> are required
               </p>
             </div>
+
             <label className='flex flex-col gap-1'>
               <div>
                 <span className='font-bold'>Title</span>
@@ -94,6 +100,20 @@ const PostForm = () => {
                 defaultValue={post && post.title}
                 required
               />
+            </label>
+
+            <label className='flex flex-col gap-1'>
+              <div>
+                <span className='font-bold'>Description</span>
+                <span className='text-red-500'>*</span>
+              </div>
+              <textarea
+                name='description'
+                rows={2}
+                className='rounded-lg flex-1 appearance-none leading-7 border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent'
+                defaultValue={post && he.decode(post.description)}
+                required
+              ></textarea>
             </label>
 
             <label className='flex flex-col gap-1'>
@@ -115,6 +135,7 @@ const PostForm = () => {
                 defaultValue={post && post.imageCredit}
               />
             </label>
+
             <fieldset className='flex gap-6'>
               <legend className='mb-1'>
                 <span className='font-bold'>Tags</span>
@@ -126,6 +147,7 @@ const PostForm = () => {
                     id={category}
                     type='checkbox'
                     name='tags'
+                    value={category}
                     defaultChecked={post && post.tags.includes(category) ? 'checked' : ''}
                     className='rounded-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-2 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent'
                   />
@@ -148,6 +170,7 @@ const PostForm = () => {
                 required
               ></textarea>
             </label>
+
             <div className='flex items-center'>
               <label className='flex items-center gap-2'>
                 <input
