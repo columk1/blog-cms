@@ -25,6 +25,7 @@ const Post = () => {
   //   }
   // })
   const post = loadedPost
+  console.log({ loadedPost })
 
   // if (!post) throw new Response('Server Error', { status: 500 })
 

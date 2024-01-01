@@ -12,7 +12,7 @@ const PostForm = () => {
 
   const navigate = useNavigate()
 
-  console.log(post)
+  // console.log(post)
 
   const categories = ['React', 'JavaScript', 'HTML', 'CSS', 'MongoDB']
 
@@ -23,8 +23,6 @@ const PostForm = () => {
     const formData = new FormData(formRef.current)
     // formData.set('markdown', he.escape(markdownRef.current.value))
     formData.set('tags', formData.getAll('tags'))
-
-    console.log(formData.get('tags'))
 
     // const formData = Array.from(e.target.elements)
     //   .filter((input) => input.name)
@@ -43,11 +41,15 @@ const PostForm = () => {
     })
     if (res.ok) {
       const newPost = (await res.json()).data
-      console.log(newPost)
-      navigate(`/posts/${newPost._id.toString()}`, { replace: true, state: { post: newPost } })
+      // console.log(newPost)
+      navigate(`/posts/${newPost._id}`, {
+        replace: true,
+        state: { loadedPost: newPost },
+      })
     } else {
       let error = await res.json()
-      setError({ status: res.status, message: error.message })
+      console.log(error)
+      setError({ status: res.status, message: error.errors[0].msg })
       // setError({ status: res.status, message: res.statusText })
       setLoading(false)
     }
