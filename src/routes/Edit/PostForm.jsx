@@ -28,7 +28,7 @@ const PostForm = () => {
     //   .filter((input) => input.name)
     //   .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {})
 
-    const res = await fetch('http://localhost:3000/api/posts' + (post ? `/${post._id}` : ''), {
+    const res = await fetch('http://localhost:3000/api/posts' + (post ? `/${post.id}` : ''), {
       method: post ? 'PUT' : 'POST',
       // mode: 'cors',
       credentials: 'include',
@@ -42,7 +42,7 @@ const PostForm = () => {
     if (res.ok) {
       const newPost = await res.json()
       console.log(newPost)
-      navigate(`/posts/${newPost._id}`, {
+      navigate(`/posts/${newPost.id}`, {
         replace: true,
         state: { loadedPost: newPost },
       })

@@ -51,12 +51,12 @@ const Posts = () => {
           </div>
         </li>
         {posts.map((post) => (
-          <li className='py-3 sm:py-4' key={post._id}>
+          <li className='py-3 sm:py-4' key={post.id}>
             <div className='flex items-center space-x-4 rtl:space-x-reverse'>
               <div className='flex-shrink-0'>
                 <img className='w-11 h-11 rounded-full' src={post.imageUrl} alt='Article Image' />
               </div>
-              <Link to={post._id} state={{ loadedPost: post }} className='flex-1 min-w-0'>
+              <Link to={post.id} state={{ loadedPost: post }} className='flex-1 min-w-0'>
                 <p className='text-lg font-medium text-gray-900 truncate'>{post.title}</p>
                 <p className='text-sm text-gray-500 truncate'>{post.author.username}</p>
               </Link>
