@@ -1,12 +1,14 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useContext } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { Context } from '../../App'
 import Loading from '../../components/Loading/Loading'
 import he from 'he'
 
 const PostForm = () => {
   const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(false)
   const { post } = useLocation().state || {}
+  const { refreshAccessToken } = useContext(Context)
+  const [loading, setLoading] = useState(false)
   const formRef = useRef(null)
   const markdownRef = useRef(null)
 
@@ -28,31 +30,32 @@ const PostForm = () => {
     //   .filter((input) => input.name)
     //   .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {})
 
-    const res = await fetch('http://localhost:3000/api/posts' + (post ? `/${post.id}` : ''), {
-      method: post ? 'PUT' : 'POST',
-      // mode: 'cors',
-      credentials: 'include',
-      // headers: {
-      //   Accept: 'application/json',
-      //   'Content-Type': 'application/json',
-      // },
-      body: new URLSearchParams(formData),
-      // body: JSON.stringify(formData),
-    })
-    if (res.ok) {
-      const newPost = await res.json()
-      console.log(newPost)
-      navigate(`/posts/${newPost.id}`, {
-        replace: true,
-        state: { loadedPost: newPost },
+    async function fetchData(formData) {
+      const res = await fetch('http://localhost:3000/api/posts' + (post ? `/${post.id}` : ''), {
+        method: post ? 'PUT' : 'POST',
+        credentials: 'include',
+        body: new URLSearchParams(formData),
       })
-    } else {
-      let error = await res.json()
-      console.log(error)
-      setLoading(false)
-      setError({ status: res.status, message: error.errors[0].msg })
-      // setError({ status: res.status, message: res.statusText })
+      if (res.status === 401) {
+        await refreshAccessToken()
+        return fetchData(formData)
+      }
+      if (res.ok) {
+        const newPost = await res.json()
+        console.log(newPost)
+        navigate(`/posts/${newPost.id}`, {
+          replace: true,
+          state: { loadedPost: newPost },
+        })
+      } else {
+        let error = await res.json()
+        console.log(error)
+        setLoading(false)
+        setError({ status: res.status, message: error.errors[0].msg })
+        // setError({ status: res.status, message: res.statusText })
+      }
     }
+    fetchData(formData)
   }
 
   if (error) {

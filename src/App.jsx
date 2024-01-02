@@ -14,6 +14,7 @@ export const Context = createContext({
 function App() {
   const [user, setUser] = useState(null)
   const [posts, setPosts] = useState(null)
+  const [error, setError] = useState(null)
   const navigate = useNavigate()
 
   // ? Change: Conditional allows logout screen without redirect to /posts caused by failed refresh
@@ -42,23 +43,27 @@ function App() {
       },
     }).then((res) => {
       if (res.status !== 200) {
+        res
+          .json()
+          .then((data) => {
+            console.log(data.message)
+            throw new Error(data.message)
+            // setError({ msg: res.statusText, status: res.status })
+          })
+          .catch((err) => {
+            console.log(err)
+            authRedirect()
+          })
+      } else {
         res.json().then((data) => {
-          console.log(data.message)
-          throw new Error(res.statusText)
-        })
-      }
-      res
-        .json()
-        .then((data) => {
           console.log(data.user)
           authRedirect(data.user)
         })
-        .catch((err) => {
-          console.log(err)
-          authRedirect()
-        })
+      }
     })
   }
+
+  if (error) throw new Response('', { status: error.status, statusText: error.msg })
 
   return (
     <Context.Provider value={{ user, posts, setPosts, authRedirect, refreshAccessToken }}>
