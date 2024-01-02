@@ -10,7 +10,7 @@ export default function ErrorPage() {
         <h1 className='text-xl text-center font-bold p-4'>Oops!</h1>
         <p>Sorry, an unexpected error has occurred.</p>
         <p className='m-6 text-gray-900'>
-          <h2 className='text-xl font-bold'>{error.status}</h2>
+          <p className='text-xl font-bold'>{error.status}</p>
           <i className='text-xl text-inherit'>{error.statusText || error.message}</i>
         </p>
         <Link className='text-blue-500' to='/'>
