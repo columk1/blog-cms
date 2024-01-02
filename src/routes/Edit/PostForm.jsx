@@ -28,8 +28,8 @@ const PostForm = () => {
     //   .filter((input) => input.name)
     //   .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {})
 
-    const res = await fetch('http://localhost:3000/api/posts', {
-      method: 'POST',
+    const res = await fetch('http://localhost:3000/api/posts' + (post ? `/${post._id}` : ''), {
+      method: post ? 'PUT' : 'POST',
       // mode: 'cors',
       credentials: 'include',
       // headers: {
@@ -40,8 +40,8 @@ const PostForm = () => {
       // body: JSON.stringify(formData),
     })
     if (res.ok) {
-      const newPost = (await res.json()).data
-      // console.log(newPost)
+      const newPost = await res.json()
+      console.log(newPost)
       navigate(`/posts/${newPost._id}`, {
         replace: true,
         state: { loadedPost: newPost },
@@ -49,9 +49,9 @@ const PostForm = () => {
     } else {
       let error = await res.json()
       console.log(error)
+      setLoading(false)
       setError({ status: res.status, message: error.errors[0].msg })
       // setError({ status: res.status, message: res.statusText })
-      setLoading(false)
     }
   }
 

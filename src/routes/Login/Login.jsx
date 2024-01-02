@@ -1,8 +1,9 @@
 import LoginFormWrapper from '../../components/LoginFormWrapper/LoginFormWrapper'
-import { useOutletContext } from 'react-router-dom'
+import { useContext } from 'react'
+import { Context } from '../../App'
 
 const Login = () => {
-  const { authRedirect } = useOutletContext()
+  const { authRedirect } = useContext(Context)
 
   return (
     <>

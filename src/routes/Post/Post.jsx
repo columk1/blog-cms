@@ -5,27 +5,29 @@ import Markdown from '../../components/Markdown/Markdown'
 
 const Post = () => {
   const { loadedPost } = useLocation().state
+  const [post, setPost] = useState(loadedPost)
   const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
 
-  // const [post, setPost] = useState(null)
+  useEffect(() => {
+    console.log('use effect' + loadedPost)
+    if (!post) {
+      setPost(loadedPost)
+      setLoading(false)
+    } else {
+      // const id = useParams().postId
+      // const post = posts.find((post) => post.id == id)
+      console.log('No Post')
+    }
+    // if (post) {
+    //   // let markdown = he.decode(post.markdown)
 
-  // useEffect(() => {
-  //   if (!post && loadedPost) {
-  //     setPost(loadedPost)
-  //   } else {
-  //     // const id = useParams().postId
-  //     // const post = posts.find((post) => post.id == id)
-  //     console.log('No Post')
-  //   }
-  //   if (post) {
-  //     let markdown = he.decode(post.markdown)
-  //     setLoading(false)
-  //   }
-  // })
-  const post = loadedPost
+    // }
+  }, [loadedPost])
+  // const post = loadedPost
   console.log({ loadedPost })
+  console.log(post)
 
   // if (!post) throw new Response('Server Error', { status: 500 })
 
