@@ -6,7 +6,7 @@ import he from 'he'
 const PostForm = () => {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
-  const { post } = useLocation().state
+  const { post } = useLocation().state || {}
   const formRef = useRef(null)
   const markdownRef = useRef(null)
 
