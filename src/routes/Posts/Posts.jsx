@@ -6,9 +6,11 @@ import Loading from '../../components/Loading/Loading'
 const Posts = () => {
   // const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
-  const { user, posts, setPosts } = useContext(Context)
+  const [error, setError] = useState(null)
+  const { user, posts, setPosts, refreshAccessToken } = useContext(Context)
+  const { message } = useNavigate().state | {}
 
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   useEffect(() => {
     console.log({ user })
@@ -33,6 +35,8 @@ const Posts = () => {
     <Loading />
   ) : (
     <div className='flex min-h-full min-w-[720px] mx-auto flex-1 flex-col justify-center px-6 lg:px-8'>
+      {/* Display message deleted on successful delete */}
+      {message && <div className='text-center text-3xl p-4'>{message}</div>}
       <h1 className='text-center text-3xl p-4'>Home</h1>
       {/* <div className='sm:mx-auto sm:w-full sm:max-w-sm'> */}
       <ul className='max-w-screen-md divide-y  divide-gray-200'>

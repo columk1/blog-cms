@@ -1,14 +1,41 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useParams, useOutletContext, useLocation, useNavigate, Link } from 'react-router-dom'
 import Loading from '../../components/Loading/Loading'
 import Markdown from '../../components/Markdown/Markdown'
+import { Context } from '../../App'
 
 const Post = () => {
   const { loadedPost } = useLocation().state
   const [post, setPost] = useState(loadedPost)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   const navigate = useNavigate()
+  const { posts, setPosts, refreshAccessToken } = useContext(Context)
+
+  async function handleDelete(postId) {
+    const res = await fetch(`http://localhost:3000/api/posts/${postId}`, {
+      method: 'DELETE',
+      credentials: 'include',
+    })
+    if (res.status === 401) {
+      await refreshAccessToken()
+      return handleDelete(postId)
+    }
+    if (res.ok) {
+      setPosts(posts.filter((post) => post.id !== postId))
+      navigate(`/posts`, {
+        replace: true,
+        state: { message: 'Post deleted' },
+      })
+    } else {
+      let error = await res.json()
+      console.log(error)
+      setLoading(false)
+      setError({ status: res.status, message: error.errors[0].msg })
+      // setError({ status: res.status, message: res.statusText })
+    }
+  }
 
   useEffect(() => {
     console.log('use effect' + loadedPost)
@@ -42,6 +69,9 @@ const Post = () => {
       <Link to={'edit'} state={{ post: post }} className='flex-1 min-w-0'>
         <button>Edit Post</button>
       </Link>
+      <button onClick={() => handleDelete(post.id)} className='flex-1 min-w-0'>
+        Delete Post
+      </button>
       <div className='w-11/12'>
         <img className='w-full object-contain' src={post.imageUrl} alt={post.title} />
       </div>
