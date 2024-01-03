@@ -66,14 +66,21 @@ const Post = () => {
       className='flex min-h-full w-[min(95vw,_880px)] mx-auto flex-1 flex-col justify-center px-6 lg:px-8'
     >
       {/* Temporary button to test editing page */}
-      <Link to={'edit'} state={{ post: post }} className='flex-1 min-w-0'>
-        <button>Edit Post</button>
-      </Link>
-      <button onClick={() => handleDelete(post.id)} className='flex-1 min-w-0'>
-        Delete Post
-      </button>
       <div className='w-11/12'>
         <img className='w-full object-contain' src={post.imageUrl} alt={post.title} />
+      </div>
+      <div className='flex w-11/12 justify-left gap-4'>
+        <Link to={'edit'} state={{ post: post }} className='min-w-0'>
+          <button className='flex justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'>
+            Edit Post
+          </button>
+        </Link>
+        <button
+          onClick={() => handleDelete(post.id)}
+          className='flex justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+        >
+          Delete Post
+        </button>
       </div>
       <div className='w-11/12'>
         <div className='mx-auto'>
