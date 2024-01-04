@@ -63,11 +63,13 @@ const Post = () => {
   ) : (
     <section
       id='post'
-      className='flex min-h-full w-[min(95vw,_880px)] mx-auto flex-1 flex-col justify-center px-6 lg:px-8'
+      className='flex min-h-full w-[min(95vw,_880px)] mx-auto flex-1 flex-col px-6 lg:px-8'
     >
       {/* Temporary button to test editing page */}
       <div className='w-11/12'>
-        <img className='w-full object-contain' src={post.imageUrl} alt={post.title} />
+        {post.imageUrl && (
+          <img className='w-full object-contain' src={post.imageUrl} alt={post.title} />
+        )}
       </div>
       <div className='flex w-11/12 justify-left gap-4'>
         <Link to={'edit'} state={{ post: post }} className='min-w-0'>

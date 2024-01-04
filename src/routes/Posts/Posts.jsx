@@ -73,7 +73,7 @@ const Posts = () => {
         <li className='py-3 sm:py-4'>
           <div className='flex items-center space-x-4 rtl:space-x-reverse'>
             <div className='flex-shrink-0'>
-              <div className='w-11 h-11 rounded-full' src='' alt='' />
+              {/* Image placeholder: <div className='w-11 h-11 rounded-full' src='' alt='' /> */}
             </div>
             <div className='flex-1 min-w-0'>
               <p className='text-lg font-bold text-gray-900 truncate'>Title / Author</p>
@@ -88,7 +88,7 @@ const Posts = () => {
           <li className='py-3 sm:py-4' key={post.id}>
             <div className='flex items-center space-x-4 rtl:space-x-reverse'>
               <div className='flex-shrink-0'>
-                <img className='w-11 h-11 rounded-full' src={post.imageUrl} alt='Article Image' />
+                {/* Image placeholder: <img className='w-11 h-11 rounded-full' src={post.imageUrl} alt='Article Image' /> */}
               </div>
               <Link to={post.id} state={{ loadedPost: post }} className='flex-1 min-w-0'>
                 <p className='text-lg font-medium text-gray-900 truncate'>{post.title}</p>
