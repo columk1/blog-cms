@@ -38,22 +38,14 @@ const Post = () => {
   }
 
   useEffect(() => {
-    console.log('use effect' + loadedPost)
     if (!post) {
       setPost(loadedPost)
       setLoading(false)
     } else {
       // const id = useParams().postId
       // const post = posts.find((post) => post.id == id)
-      console.log('No Post')
     }
-    // if (post) {
-    //   // let markdown = he.decode(post.markdown)
-
-    // }
-  }, [loadedPost])
-  // const post = loadedPost
-  console.log({ loadedPost })
+  }, [])
   console.log(post)
 
   // if (!post) throw new Response('Server Error', { status: 500 })
@@ -65,7 +57,6 @@ const Post = () => {
       id='post'
       className='flex min-h-full w-[min(95vw,_880px)] mx-auto flex-1 flex-col px-6 lg:px-8'
     >
-      {/* Temporary button to test editing page */}
       <div className='w-11/12'>
         {post.imageUrl && (
           <img className='w-full object-contain' src={post.imageUrl} alt={post.title} />
