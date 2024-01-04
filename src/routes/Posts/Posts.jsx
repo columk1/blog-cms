@@ -100,6 +100,7 @@ const Posts = () => {
                   <input
                     onClick={(e) => togglePublish(post.id, e.target.checked)}
                     type='checkbox'
+                    readOnly
                     value=''
                     className='sr-only peer'
                     checked={post.isPublished}
