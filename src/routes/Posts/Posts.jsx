@@ -1,14 +1,15 @@
 import { useEffect, useState, useContext } from 'react'
-import { Link, useNavigate, useOutletContext } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Context } from '../../App'
 import Loading from '../../components/Loading/Loading'
 
 const Posts = () => {
   // const [posts, setPosts] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  // const { posts, setPosts } = usePostsState()
   const { user, posts, setPosts, refreshAccessToken } = useContext(Context)
+  const [loading, setLoading] = useState(posts ? false : true)
   const { message } = useNavigate().state | {}
+  const [error, setError] = useState(null)
 
   const navigate = useNavigate()
 
@@ -43,7 +44,6 @@ const Posts = () => {
   }
 
   useEffect(() => {
-    console.log({ user })
     if (!posts) {
       console.log('Fetching')
       fetch('http://localhost:3000/api/posts')

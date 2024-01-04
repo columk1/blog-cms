@@ -4,17 +4,13 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import Navbar from './components/Header/Navbar'
 import Footer from './components/Footer/Footer'
 
-export const Context = createContext({
-  username: null,
-  posts: null,
-  authRedirect: () => {},
-  refreshAccessToken: () => {},
-})
+export const Context = createContext(null)
 
 function App() {
   const [user, setUser] = useState(null)
   const [posts, setPosts] = useState(null)
   const [error, setError] = useState(null)
+
   const navigate = useNavigate()
 
   // ? Change: Conditional allows logout screen without redirect to /posts caused by failed refresh
@@ -23,10 +19,9 @@ function App() {
     refreshAccessToken()
   }, [])
 
-  function authRedirect(user) {
-    if (user) {
-      setUser(user)
-      // navigate('/posts')
+  function authRedirect(newUser) {
+    if (newUser) {
+      setUser(newUser)
     } else {
       setUser(null)
       navigate('/login')
