@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function useForm({ additionalData }) {
+function useForm({ additionalData } = {}) {
   const [status, setStatus] = useState('')
   const [message, setMessage] = useState('')
   const [data, setData] = useState({})

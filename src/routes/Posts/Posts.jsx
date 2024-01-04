@@ -4,8 +4,6 @@ import { Context } from '../../App'
 import Loading from '../../components/Loading/Loading'
 
 const Posts = () => {
-  // const [posts, setPosts] = useState([])
-  // const { posts, setPosts } = usePostsState()
   const { user, posts, setPosts, refreshAccessToken } = useContext(Context)
   const [loading, setLoading] = useState(posts ? false : true)
   const { message } = useNavigate().state | {}
@@ -48,7 +46,6 @@ const Posts = () => {
       console.log('Fetching')
       fetch('http://localhost:3000/api/posts')
         .then((res) => res.json())
-        // .then((data) => setPosts(humps.camelizeKeys(data.data)))
         .then((data) => {
           setPosts(data)
         })
@@ -57,7 +54,7 @@ const Posts = () => {
     } else {
       setLoading(false)
     }
-  }, [posts])
+  }, [])
 
   console.log({ posts })
 

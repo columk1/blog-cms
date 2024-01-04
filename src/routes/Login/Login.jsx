@@ -1,21 +1,24 @@
 import LoginFormWrapper from '../../components/LoginFormWrapper/LoginFormWrapper'
 import { useContext } from 'react'
 import { Context } from '../../App'
+import useForm from '../../helpers/useForm'
+import { useNavigate } from 'react-router-dom'
+import LoginForm from '../../components/LoginForm/LoginForm'
 
 const Login = () => {
   const { authRedirect } = useContext(Context)
+  const { handleSubmit, status, message, data } = useForm()
+
+  const navigate = useNavigate()
+
+  if (status === 'success') {
+    console.log('This is the login log: ' + data.user)
+    authRedirect(data.user)
+    setTimeout(() => navigate('/posts'), 500)
+  }
 
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html className="h-full bg-white">
-        <body className="h-full">
-        ```
-      */}
-
       <div className='flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
           <img
@@ -29,7 +32,11 @@ const Login = () => {
         </div>
 
         <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
-          <LoginFormWrapper authRedirect={authRedirect} />
+          {status === 'success' ? (
+            <div className='text-2xl text-center font-bold'>👍 {message}</div>
+          ) : (
+            <LoginForm handleSubmit={handleSubmit} errorMessage={message} />
+          )}
         </div>
       </div>
     </>
