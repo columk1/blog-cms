@@ -12,6 +12,36 @@ const Posts = () => {
 
   const navigate = useNavigate()
 
+  async function togglePublish(postId, publish) {
+    const res = await fetch(`http://localhost:3000/api/posts/${postId}?publish=${publish}`, {
+      method: 'PATCH',
+      credentials: 'include',
+    })
+    if (res.status === 401) {
+      const refreshRes = await refreshAccessToken()
+      console.log({ refreshRes })
+      if (refreshRes.ok) {
+        return togglePublish(postId)
+      } else {
+        setError({ status: refreshRes.status, message: refreshRes.statusText })
+        return
+      }
+    }
+    if (res.ok) {
+      setPosts(posts.map((post) => (post.id === postId ? { ...post, isPublished: publish } : post)))
+      navigate(`/posts`, {
+        replace: true,
+        state: { message: 'Publish status updated' },
+      })
+    } else {
+      let error = await res.json()
+      console.log(error)
+      setLoading(false)
+      setError({ status: res.status, message: error.errors[0].msg })
+      // setError({ status: res.status, message: res.statusText })
+    }
+  }
+
   useEffect(() => {
     console.log({ user })
     if (!posts) {
@@ -48,9 +78,9 @@ const Posts = () => {
             <div className='flex-1 min-w-0'>
               <p className='text-lg font-bold text-gray-900 truncate'>Title / Author</p>
             </div>
-            <div className='inline-flex gap-2 items-center text-lg font-bold text-gray-900'>
+            <div className='inline-flex gap-0 items-center text-lg font-bold text-gray-900'>
               <div className='min-w-16'>Date</div>
-              <div className='w-20 text-center'>Published</div>
+              <div className='w-24 text-center'>Publish</div>
             </div>
           </div>
         </li>
@@ -64,9 +94,20 @@ const Posts = () => {
                 <p className='text-lg font-medium text-gray-900 truncate'>{post.title}</p>
                 <p className='text-sm text-gray-500 truncate'>{post.author.username}</p>
               </Link>
-              <div className='inline-flex gap-2 items-center text-base text-gray-900'>
+              <div className='inline-flex gap-4 items-center text-base text-gray-900'>
                 <div className='min-w-16'>{post.formattedDate}</div>
-                <div className='w-20 text-center'>{post.isPublished ? '✅' : '❌'}</div>
+                <label className='relative w-20 inline-flex items-center cursor-pointer'>
+                  <input
+                    onClick={(e) => togglePublish(post.id, e.target.checked)}
+                    type='checkbox'
+                    value=''
+                    className='sr-only peer'
+                    checked={post.isPublished}
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                  <span className='ms-3 text-sm font-medium text-gray-900 dark:text-gray-300'></span>
+                </label>
+                {/* <div className='w-20 text-center'>{post.isPublished ? '✅' : '❌'}</div> */}
               </div>
             </div>
           </li>
