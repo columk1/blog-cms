@@ -1,5 +1,7 @@
-const mode = 'dev'
-const API_DOMAIN = mode === 'prod' ? import.meta.env.VITE_PROD_API : import.meta.env.VITE_DEV_API
+const API_DOMAIN =
+  import.meta.env.MODE === 'production'
+    ? import.meta.env.VITE_PROD_API
+    : import.meta.env.VITE_DEV_API
 
 const refreshOptions = {
   method: 'POST',
@@ -7,7 +9,6 @@ const refreshOptions = {
 }
 
 export default async function fetchData(path, method, formData) {
-  console.log(`${API_DOMAIN}${path}`)
   const options = {
     method,
     credentials: 'include',
