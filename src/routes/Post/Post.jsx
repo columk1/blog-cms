@@ -3,6 +3,7 @@ import { useParams, useOutletContext, useLocation, useNavigate, Link } from 'rea
 import Loading from '../../components/Loading/Loading'
 import Markdown from '../../components/Markdown/Markdown'
 import { Context } from '../../App'
+import fetchData from '../../helpers/fetch'
 
 const Post = () => {
   const { loadedPost } = useLocation().state
@@ -11,17 +12,10 @@ const Post = () => {
   const [error, setError] = useState(null)
 
   const navigate = useNavigate()
-  const { posts, setPosts, refreshAccessToken } = useContext(Context)
+  const { posts, setPosts } = useContext(Context)
 
   async function handleDelete(postId) {
-    const res = await fetch(`http://localhost:3000/api/posts/${postId}`, {
-      method: 'DELETE',
-      credentials: 'include',
-    })
-    if (res.status === 401) {
-      await refreshAccessToken()
-      return handleDelete(postId)
-    }
+    const res = await fetchData(`/api/posts/${postId}`, 'DELETE')
     if (res.ok) {
       setPosts(posts.filter((post) => post.id !== postId))
       navigate(`/posts`, {
@@ -31,9 +25,8 @@ const Post = () => {
     } else {
       let error = await res.json()
       console.log(error)
+      setError({ status: res.status, message: error.message })
       setLoading(false)
-      setError({ status: res.status, message: error.errors[0].msg })
-      // setError({ status: res.status, message: res.statusText })
     }
   }
 
@@ -48,7 +41,7 @@ const Post = () => {
   }, [])
   console.log(post)
 
-  // if (!post) throw new Response('Server Error', { status: 500 })
+  if (error) throw new Response('', { status: error.status, statusText: error.message })
 
   return loading ? (
     <Loading />

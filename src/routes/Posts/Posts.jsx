@@ -1,10 +1,11 @@
 import { useEffect, useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Context } from '../../App'
+import fetchData from '../../helpers/fetch'
 import Loading from '../../components/Loading/Loading'
 
 const Posts = () => {
-  const { user, posts, setPosts, refreshAccessToken } = useContext(Context)
+  const { user, posts, setPosts } = useContext(Context)
   const [loading, setLoading] = useState(posts ? false : true)
   const { message } = useNavigate().state | {}
   const [error, setError] = useState(null)
@@ -12,20 +13,7 @@ const Posts = () => {
   const navigate = useNavigate()
 
   async function togglePublish(postId, publish) {
-    const res = await fetch(`http://localhost:3000/api/posts/${postId}?publish=${publish}`, {
-      method: 'PATCH',
-      credentials: 'include',
-    })
-    if (res.status === 401) {
-      const refreshRes = await refreshAccessToken()
-      console.log({ refreshRes })
-      if (refreshRes.ok) {
-        return togglePublish(postId)
-      } else {
-        setError({ status: refreshRes.status, message: refreshRes.statusText })
-        return
-      }
-    }
+    const res = await fetchData(`/api/posts/${postId}?publish=${publish}`, 'PATCH')
     if (res.ok) {
       setPosts(posts.map((post) => (post.id === postId ? { ...post, isPublished: publish } : post)))
       navigate(`/posts`, {
@@ -33,30 +21,50 @@ const Posts = () => {
         state: { message: 'Publish status updated' },
       })
     } else {
-      let error = await res.json()
+      console.log(res)
+      const error = await res.json()
       console.log(error)
       setLoading(false)
-      setError({ status: res.status, message: error.errors[0].msg })
-      // setError({ status: res.status, message: res.statusText })
+      setError({ status: res.status, message: error.message })
     }
   }
 
   useEffect(() => {
     if (!posts) {
-      console.log('Fetching')
-      fetch('http://localhost:3000/api/posts')
-        .then((res) => res.json())
-        .then((data) => {
-          setPosts(data)
-        })
-        .catch((err) => console.log(err))
-        .finally(() => setLoading(false))
+      // prettier-ignore
+      (async () => {
+        try {
+          const res = await fetchData('/api/posts', 'GET')
+          if (res.ok) {
+            setPosts(await res.json())
+            setLoading(false)
+          } else {
+            const data = await res.json()
+            setError({ status: res.status, message: data.message })
+          }
+        } catch (err) {
+          setError({ message: err.message })
+        }
+      })()
     } else {
       setLoading(false)
     }
   }, [])
 
-  console.log({ posts })
+  // useEffect(() => {
+  //   if (!posts) {
+  //     console.log('Fetching')
+  //     fetchData('/api/post', 'GET')
+  //       .then((res) => res.json())
+  //       .then((data) => setPosts(data))
+  //       .catch((err) => setError({ status: err.status, message: err.message }))
+  //       .finally(() => setLoading(false))
+  //   } else {
+  //     setLoading(false)
+  //   }
+  // }, [])
+
+  if (error) throw new Response('', { status: error.status, statusText: error.message })
 
   return loading ? (
     <Loading />

@@ -13,7 +13,7 @@ export function usePostsState() {
   const context = useContext(PostsStateContext)
   // Throw error if hook used outside of provider
   if (!context) {
-    throw new Error('useCounterState must be within CounterProvider')
+    throw new Error('usePostsState must be within PostsProvider')
   }
   return context
 }
