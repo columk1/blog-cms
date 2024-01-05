@@ -2,12 +2,15 @@ import { useState, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import fetchData from '../../helpers/fetch'
 import Loading from '../../components/Loading/Loading'
+import Markdown from '../../components/Markdown/Markdown'
 import he from 'he'
 
 const PostForm = () => {
-  const [error, setError] = useState(null)
   const { post } = useLocation().state || {}
+  const [markdown, setMarkdown] = useState(post?.markdown || null)
+  const [previewMarkdown, setPreviewMarkdown] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
   const formRef = useRef(null)
   const markdownRef = useRef(null)
 
@@ -152,18 +155,34 @@ const PostForm = () => {
             </fieldset>
 
             <label className='flex flex-col gap-1'>
-              <div>
-                <span className='font-bold'>Markdown</span>
-                <span className='text-red-500'>*</span>
+              <div className='flex justify-between items-end'>
+                <div>
+                  <span className='font-bold'>Markdown</span>
+                  <span className='text-red-500'>*</span>
+                </div>
+                <button
+                  type='button'
+                  onClick={() => setPreviewMarkdown(!previewMarkdown)}
+                  className='w-20 flex justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+                >
+                  {previewMarkdown ? 'Edit' : 'Preview'}
+                </button>
               </div>
-              <textarea
-                ref={markdownRef}
-                name='markdown'
-                rows={20}
-                className='rounded-lg flex-1 appearance-none leading-7 border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent'
-                defaultValue={post && he.decode(post.markdown)}
-                required
-              ></textarea>
+              {post && previewMarkdown ? (
+                <div className='prose prose-lg prose-a:text-blue-600 prose-a:no-underline prose-pre:bg-[#1e1e1e]'>
+                  <Markdown markdownString={markdown} />
+                </div>
+              ) : (
+                <textarea
+                  ref={markdownRef}
+                  name='markdown'
+                  rows={20}
+                  onChange={(e) => setMarkdown(e.target.value)}
+                  className='rounded-lg flex-1 appearance-none leading-7 border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent'
+                  defaultValue={markdown && he.decode(markdown)}
+                  required
+                ></textarea>
+              )}
             </label>
 
             <div className='flex items-center'>
