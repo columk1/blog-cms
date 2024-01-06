@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
-import { useParams, useOutletContext, useLocation, useNavigate, Link } from 'react-router-dom'
+import { useParams, useLocation, useNavigate, Link } from 'react-router-dom'
 import Loading from '../../components/Loading/Loading'
 import Markdown from '../../components/Markdown/Markdown'
 import { Context } from '../../App'
@@ -8,12 +8,14 @@ import he from 'he'
 
 const Post = () => {
   const { loadedPost } = useLocation().state
-  const [post, setPost] = useState(loadedPost)
+  const { posts, setPosts } = useContext(Context)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  // Posts escaped on back-end and decoded here to display markdown
+  const post = { ...loadedPost, markdown: he.decode(loadedPost.markdown) }
+
   const navigate = useNavigate()
-  const { posts, setPosts } = useContext(Context)
 
   async function handleDelete(postId) {
     const res = await fetchData(`/api/posts/${postId}`, 'DELETE')
@@ -31,16 +33,15 @@ const Post = () => {
     }
   }
 
-  useEffect(() => {
-    if (!post) {
-      setPost(loadedPost)
-      setLoading(false)
-    } else {
-      // const id = useParams().postId
-      // const post = posts.find((post) => post.id == id)
-    }
-  }, [])
-  console.log(post)
+  // useEffect(() => {
+  //   if (!post) {
+  //     setPost(loadedPost)
+  //     setLoading(false)
+  //   } else {
+  //     // const id = useParams().postId
+  //     // const post = posts.find((post) => post.id == id)
+  //   }
+  // }, [])
 
   if (error) throw new Response('', { status: error.status, statusText: error.message })
 

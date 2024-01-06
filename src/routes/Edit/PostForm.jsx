@@ -1,14 +1,15 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useContext } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import fetchData from '../../helpers/fetch'
 import Loading from '../../components/Loading/Loading'
 import MarkdownEditor from '../../components/MarkdownEditor/MarkdownEditor'
 import he from 'he'
+import { Context } from '../../App'
 
 const PostForm = () => {
   const { post } = useLocation().state || {}
   const [markdown, setMarkdown] = useState(post?.markdown || '')
-  // const [previewMarkdown, setPreviewMarkdown] = useState(false)
+  const { posts, setPosts } = useContext(Context)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const formRef = useRef(null)
@@ -23,7 +24,6 @@ const PostForm = () => {
     setLoading(true)
 
     const formData = new FormData(formRef.current)
-    formData.set('markdown', markdown)
     formData.set('tags', formData.getAll('tags'))
 
     // const formData = Array.from(e.target.elements)
@@ -37,7 +37,8 @@ const PostForm = () => {
     )
     if (res.ok) {
       const newPost = await res.json()
-      console.log(newPost)
+      // console.log(newPost)
+      setPosts(posts.map((post) => (post.id === newPost.id ? newPost : post)))
       navigate(`/posts/${newPost.id}`, {
         replace: true,
         state: { loadedPost: newPost },

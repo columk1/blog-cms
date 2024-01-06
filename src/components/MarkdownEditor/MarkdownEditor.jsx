@@ -41,7 +41,7 @@ const MarkdownEditor = ({ markdownStr, onChange }) => {
 
 MarkdownEditor.propTypes = {
   markdownStr: PropTypes.string,
-  onChange: PropTypes.function,
+  onChange: PropTypes.func,
 }
 
 export default MarkdownEditor

@@ -1,4 +1,11 @@
-const FORM_ENDPOINT = 'http://localhost:3000/api/auth/login'
+import PropTypes from 'prop-types'
+const API_DOMAIN =
+  import.meta.env.MODE === 'production'
+    ? import.meta.env.VITE_PROD_API
+    : import.meta.env.VITE_DEV_API
+
+const FORM_ENDPOINT = `${API_DOMAIN}/api/auth/login`
+
 const LoginForm = ({ handleSubmit, errorMessage }) => {
   return (
     <form className='space-y-6' action={FORM_ENDPOINT} onSubmit={handleSubmit} method='POST'>
@@ -83,6 +90,11 @@ const LoginForm = ({ handleSubmit, errorMessage }) => {
       </div>
     </form>
   )
+}
+
+LoginForm.propTypes = {
+  handleSubmit: PropTypes.func,
+  errorMessage: PropTypes.string,
 }
 
 export default LoginForm
