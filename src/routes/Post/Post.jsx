@@ -4,6 +4,7 @@ import Loading from '../../components/Loading/Loading'
 import Markdown from '../../components/Markdown/Markdown'
 import { Context } from '../../App'
 import fetchData from '../../helpers/fetch'
+import he from 'he'
 
 const Post = () => {
   const { loadedPost } = useLocation().state

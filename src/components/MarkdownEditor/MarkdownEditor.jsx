@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import he from 'he'
 import Markdown from '../../components/Markdown/Markdown'
+import { PropTypes } from 'prop-types'
 
 const MarkdownEditor = ({ markdownStr, onChange }) => {
   const markdown = markdownStr
@@ -36,6 +37,11 @@ const MarkdownEditor = ({ markdownStr, onChange }) => {
       )}
     </label>
   )
+}
+
+MarkdownEditor.propTypes = {
+  markdownStr: PropTypes.string,
+  onChange: PropTypes.function,
 }
 
 export default MarkdownEditor
