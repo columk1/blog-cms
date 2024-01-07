@@ -11,14 +11,19 @@ const Login = () => {
   const navigate = useNavigate()
 
   if (status === 'success') {
-    console.log('This is the login log: ' + data.user)
+    // console.log('This is the login log: ' + data.user)
     authRedirect(data.user)
-    setTimeout(() => navigate('/posts'), 500)
+    setTimeout(() => navigate('/posts'), 300)
   }
 
   return (
     <>
       <div className='flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8'>
+        
+      {status === 'success' ? (
+            <div className='text-2xl text-center font-bold'>👍 {message}</div>
+          ) : (
+            <>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
           <img
             className='mx-auto h-10 w-auto'
@@ -29,14 +34,11 @@ const Login = () => {
             Sign in to your account
           </h2>
         </div>
-
         <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
-          {status === 'success' ? (
-            <div className='text-2xl text-center font-bold'>👍 {message}</div>
-          ) : (
-            <LoginForm handleSubmit={handleSubmit} errorMessage={message} />
-          )}
+            <LoginForm handleSubmit={handleSubmit} status={status}errorMessage={message} />
         </div>
+        </>
+        )}
       </div>
     </>
   )

@@ -6,7 +6,7 @@ const API_DOMAIN =
 
 const FORM_ENDPOINT = `${API_DOMAIN}/api/auth/login`
 
-const LoginForm = ({ handleSubmit, errorMessage }) => {
+const LoginForm = ({ handleSubmit, status, errorMessage }) => {
   return (
     <form className='space-y-6' action={FORM_ENDPOINT} onSubmit={handleSubmit} method='POST'>
       <div className='flex flex-col mb-2'>
@@ -94,6 +94,7 @@ const LoginForm = ({ handleSubmit, errorMessage }) => {
 
 LoginForm.propTypes = {
   handleSubmit: PropTypes.func,
+  status: PropTypes.string,
   errorMessage: PropTypes.string,
 }
 
