@@ -25,6 +25,7 @@ const PostForm = () => {
 
     const formData = new FormData(formRef.current)
     formData.set('tags', formData.getAll('tags'))
+    formData.set('markdown', markdown)
 
     // const formData = Array.from(e.target.elements)
     //   .filter((input) => input.name)

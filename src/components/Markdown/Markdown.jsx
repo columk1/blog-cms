@@ -10,21 +10,6 @@ SyntaxHighlighter.registerLanguage('jsx', jsx)
 SyntaxHighlighter.registerLanguage('js', js)
 SyntaxHighlighter.registerLanguage('css', css)
 
-// const style = {
-//   color: 'rgb(156, 220, 254)',
-//   fontSize: '13px',
-//   textShadow: 'none',
-//   fontFamily: 'Menlo, Monaco, Consolas, "Andale Mono", "Ubuntu Mono", "Courier New", monospace',
-//   direction: 'ltr',
-//   textAlign: 'left',
-//   whiteSpace: 'pre',
-//   wordSpacing: 'normal',
-//   wordBreak: 'normal',
-//   lineHeight: 1.5,
-//   tabSize: 4,
-//   hyphens: 'none',
-// }
-
 const Markdown = ({ markdownString }) => {
   const markdown = he.decode(markdownString)
   return markdown ? (
@@ -37,11 +22,12 @@ const Markdown = ({ markdownString }) => {
           return match ? (
             <SyntaxHighlighter
               {...rest}
-              PreTag='pre'
+              PreTag='div'
               children={String(children).replace(/\n$/, '')}
               language={match[1]}
               style={vscDarkPlus}
               customStyle={{
+                margin: '0',
                 lineHeight: '1.5',
                 fontSize: '0.9rem',
               }}
