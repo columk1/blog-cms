@@ -80,7 +80,7 @@ const Post = () => {
           <p>|</p>
           <p>{`${post.readingLength} MIN READ`}</p>
         </div>
-        <div className='prose prose-lg prose-a:text-blue-600 prose-a:no-underline prose-pre:bg-[#1e1e1e]'>
+        <div className='prose prose-lg prose-a:text-blue-600 prose-a:no-underline prose-pre:p-2 prose-pre:bg-[#1e1e1e]'>
           <Markdown markdownString={post.markdown} />
         </div>
       </div>
