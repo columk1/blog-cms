@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react'
+
+const API_DOMAIN =
+  import.meta.env.MODE === 'production'
+    ? import.meta.env.VITE_PROD_API
+    : import.meta.env.VITE_DEV_API
+
 const Logout = () => {
   const [error, setError] = useState(null)
 
   if (error) throw error
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/auth/logout', {
+    fetch(`${API_DOMAIN}/api/auth/logout`, {
       method: 'POST',
       credentials: 'include',
       headers: {
