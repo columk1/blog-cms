@@ -38,7 +38,7 @@ const PostForm = () => {
     )
     if (res.ok) {
       const newPost = await res.json()
-      // console.log(newPost)
+      console.log(newPost)
       setPosts(posts.map((post) => (post.id === newPost.id ? newPost : post)))
       navigate(`/posts/${newPost.id}`, {
         replace: true,
