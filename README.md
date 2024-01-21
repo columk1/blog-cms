@@ -8,7 +8,7 @@
   </a>
   -->
 
-<h3 align="center">Blog API</h3>
+<h3 align="center">Blog CMS</h3>
   <p align="center">
   A CMS for a markdown blog built with Vite. Hosted on Netlify.
   </p>
