@@ -10,7 +10,7 @@
 
 <h3 align="center">Blog API</h3>
   <p align="center">
-  CMS for a markdown blog built with Vite. Hosted on Netlify.
+  A CMS for a markdown blog built with Vite. Hosted on Netlify.
   </p>
 </div>
 
@@ -51,8 +51,6 @@ nvm install 21.6.0
    npm install
    ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ### Usage
 
 Use `npm run dev` to start the application locally
@@ -64,8 +62,6 @@ Use `npm run dev` to start the application locally
 - [ ] Markdown live preview for large screens (instead of toggle)
 - [ ] CDN for images
 - [ ] Improved accessibility
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
