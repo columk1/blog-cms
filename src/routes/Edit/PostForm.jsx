@@ -17,7 +17,16 @@ const PostForm = () => {
 
   const navigate = useNavigate()
 
-  const categories = ['React', 'JavaScript', 'HTML', 'CSS', 'MongoDB']
+  const categories = [
+    'React',
+    'JavaScript',
+    'Typescript',
+    'NextJS',
+    'HTML',
+    'CSS',
+    'MongoDB',
+    'Personal',
+  ]
 
   const savePost = async (e) => {
     e.preventDefault()
